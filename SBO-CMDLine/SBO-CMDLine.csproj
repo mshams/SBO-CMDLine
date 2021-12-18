@@ -50,7 +50,6 @@
     <Reference Include="SAPBusinessOneSDK" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentParserHelper.cs" />
     <Compile Include="commands\CmdReportManager.cs" />
     <Compile Include="IArgumentCommand.cs" />
     <Compile Include="Program.cs" />
