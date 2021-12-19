@@ -1,6 +1,0 @@
-D:\users\m_admin\nextcloud\Docs\dotnet\SBO-CMDLine\SBO-CMDLine\bin\Debug\SBO-CMDLine.exe
-D:\users\m_admin\nextcloud\Docs\dotnet\SBO-CMDLine\SBO-CMDLine\bin\Debug\SBO-CMDLine.pdb
-D:\users\m_admin\nextcloud\Docs\dotnet\SBO-CMDLine\SBO-CMDLine\bin\Debug\Mono.Options.dll
-D:\users\m_admin\nextcloud\Docs\dotnet\SBO-CMDLine\SBO-CMDLine\bin\Debug\SAPBusinessOneSDK.dll
-D:\users\m_admin\nextcloud\Docs\dotnet\SBO-CMDLine\SBO-CMDLine\obj\Debug\SBO-CMDLine.exe
-D:\users\m_admin\nextcloud\Docs\dotnet\SBO-CMDLine\SBO-CMDLine\obj\Debug\SBO-CMDLine.pdb
