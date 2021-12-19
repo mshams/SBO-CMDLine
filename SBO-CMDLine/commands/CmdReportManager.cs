@@ -2,24 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mono.Options;
 
 namespace SBO_CMDLine.commands
 {
-    public class CmdReportManager:IArgumentCommand
+    public class CmdReportManager : Command
     {
-        public bool Process(string[] args)
-        {
-            throw new NotImplementedException();
-        }
+        private string filename;
 
-        public string GetName()
-        {
-            throw new NotImplementedException();
-        }
+        public override string Description => "Install/Uninstall reports";
 
-        public string GetDescription()
+        public override string Help => "Usage: Set options.";
+
+        public override OptionSet Options
         {
-            throw new NotImplementedException();
+            get
+            {
+                return new OptionSet()
+                {
+                    Description,
+                    Help,
+                    "Options:",
+                    {
+                        "i=|install=", "Name/Path of the file to be installed.", f =>
+                        {
+                            filename = f;
+                            Console.WriteLine($"Filename: {filename}");
+                        }
+                    },
+                    {
+                        "u=|uninstall=", "Name/Path of the file to be uninstalled.", f => filename = f
+                    }
+                };
+            }
         }
     }
 }

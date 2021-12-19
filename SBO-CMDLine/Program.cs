@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using SAPbouiCOM.Framework;
 
 namespace SBO_CMDLine
