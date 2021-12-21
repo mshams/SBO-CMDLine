@@ -1,15 +1,130 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using SAPbobsCOM;
 using SBO_CMDLine.business.company;
-using SBO_CMDLine.system;
 
 namespace SBO_CMDLine.business.report
 {
     public class ReportHelper
     {
-        public static bool RemoveReport(string typeName, string formType, string addonName)
+        private static readonly string FORMAT = "Type: {0}  Code: {1}  Category: {2,-12}Name: {3}";
+
+        public static List<String> GetReportList(string typeCode = "", string reportName = "")
+        {
+            List<String> result = new List<string>();
+
+            ReportTypesService rptTypeService = (ReportTypesService) CompanyHelper.GetDICompany().GetCompanyService()
+                .GetBusinessService(ServiceTypes.ReportTypesService);
+
+            ReportLayoutsService layoutService = (ReportLayoutsService) CompanyHelper.GetDICompany().GetCompanyService()
+                .GetBusinessService(ServiceTypes.ReportLayoutsService);
+
+            ReportParams rParams = (ReportParams) layoutService
+                .GetDataInterface(ReportLayoutsServiceDataInterfaces.rlsdiReportParams);
+
+            try
+            {
+                ReportTypesParams reportTypeParams = rptTypeService.GetReportTypeList();
+
+                if (string.IsNullOrEmpty(typeCode))
+                    for (var i = 0; i < reportTypeParams.Count; i++)
+                    {
+                        var reportType = reportTypeParams.Item(i);
+                        rParams.ReportCode = reportType.TypeCode;
+                        result.AddRange(GetReportsByType(reportType.TypeCode, reportName));
+                    }
+                else
+                {
+                    result.AddRange(GetReportsByType(typeCode, reportName));
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error listing report: {e.Message} {e.InnerException?.Message} {e.ToString()}");
+            }
+            finally
+            {
+                if (rptTypeService != null)
+                    Marshal.ReleaseComObject(rptTypeService);
+
+                if (layoutService != null)
+                    Marshal.ReleaseComObject(layoutService);
+
+                if (rParams != null)
+                    Marshal.ReleaseComObject(rParams);
+            }
+
+            return result;
+        }
+
+        private static List<string> GetReportsByType(string typeCode, string name)
+        {
+            List<String> result = new List<string>();
+
+            ReportLayoutsService layoutService = (ReportLayoutsService) CompanyHelper.GetDICompany().GetCompanyService()
+                .GetBusinessService(ServiceTypes.ReportLayoutsService);
+
+            ReportParams rParams = (ReportParams) layoutService
+                .GetDataInterface(ReportLayoutsServiceDataInterfaces.rlsdiReportParams);
+
+            ReportLayoutsParams layoutParams = null;
+
+            try
+            {
+                rParams.ReportCode = typeCode;
+                layoutParams = layoutService.GetReportLayoutList(rParams);
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    for (var j = 0; j < layoutParams.Count; j++)
+                    {
+                        ReportLayoutParams layoutItem = layoutParams.Item(j);
+                        result.Add(string.Format(FORMAT,
+                            typeCode,
+                            layoutItem.LayoutCode,
+                            layoutItem.Category,
+                            layoutItem.LayoutName));
+                    }
+                }
+                else
+                {
+                    for (var j = 0; j < layoutParams.Count; j++)
+                    {
+                        ReportLayoutParams layoutItem = layoutParams.Item(j);
+
+                        if (layoutItem.LayoutName.ToLower().Contains(name.ToLower()))
+                            result.Add(string.Format(FORMAT,
+                                typeCode,
+                                layoutItem.LayoutCode,
+                                layoutItem.Category,
+                                layoutItem.LayoutName));
+                    }
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                if (layoutParams != null)
+                    Marshal.ReleaseComObject(layoutParams);
+
+                if (layoutService != null)
+                    Marshal.ReleaseComObject(layoutService);
+
+                if (rParams != null)
+                    Marshal.ReleaseComObject(rParams);
+            }
+
+            return result;
+        }
+
+        public static bool RemoveReport(string typeCode, string typeName, string formType, string addonName)
         {
             bool result = false;
 
@@ -22,14 +137,11 @@ namespace SBO_CMDLine.business.report
             ReportParams rParams = (ReportParams) layoutService
                 .GetDataInterface(ReportLayoutsServiceDataInterfaces.rlsdiReportParams);
 
-
             try
             {
                 ReportType newType = (ReportType) rptTypeService.GetDataInterface(ReportTypesServiceDataInterfaces.rtsReportType);
 
                 newType.TypeName = typeName;
-                newType.AddonName = addonName;
-                newType.AddonFormType = formType;
 
                 ReportTypesParams rtParams = rptTypeService.GetReportTypeList();
 
@@ -37,7 +149,11 @@ namespace SBO_CMDLine.business.report
                 {
                     ReportTypeParams rtItem = rtParams.Item(i);
 
-                    if (rtItem.AddonName.Equals(addonName) && rtItem.TypeName.Equals(typeName) && rtItem.AddonFormType.Equals(formType))
+                    if (rtItem.TypeCode.Equals(typeCode) &&
+                        (string.IsNullOrEmpty(typeName) || rtItem.TypeName.Equals(typeName)) &&
+                        (string.IsNullOrEmpty(addonName) || rtItem.AddonName.Equals(addonName)) &&
+                        (string.IsNullOrEmpty(formType) || rtItem.AddonFormType.Equals(formType))
+                    )
                     {
                         ReportType rType = rptTypeService.GetReportType(rtItem);
                         rType.DefaultReportLayout = "";
