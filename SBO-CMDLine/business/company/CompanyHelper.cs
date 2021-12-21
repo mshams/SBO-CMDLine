@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Runtime.InteropServices;
 using SAPbobsCOM;
 using SAPbouiCOM;
-using SBO_CMDLine.system;
 using Company = SAPbobsCOM.Company;
 
 namespace SBO_CMDLine.business.company
