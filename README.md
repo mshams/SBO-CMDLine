@@ -26,6 +26,7 @@ Options:
   -r                         Report management tools.
   -h, -?                     show help
 ```
+In UI mode, there should be an open SBO application with admin permission (Ex: manager user) to be used by connection string and running commands. In DI mode you can prepare a xml file with propper credentials to be used for connection. 
 
 ### Get list of companies:
 Command:
