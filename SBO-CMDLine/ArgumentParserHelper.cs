@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms.VisualStyles;
+using System.Windows.Forms;
 using Mono.Options;
 using SBO_CMDLine.business.company;
 using SBO_CMDLine.commands;
@@ -16,19 +13,20 @@ namespace SBO_CMDLine
         private static Command _cmd;
         private static string _connectionFile;
 
-        private const string MODE_UI = "ui";
-        private const string MODE_DI = "di";
+        private static readonly string MODE_UI = "ui";
+        private static readonly string MODE_DI = "di";
 
         public static void ParseArgs(string[] args)
         {
             _cmd = null;
             _connectionMode = null;
             _connectionFile = null;
+            bool helpMode = false;
 
             _options = new OptionSet()
             {
-                "SBO Command Line Helper",
-                "If no message is specified, a generic greeting is used.",
+                $"SBO Command Line Helper v{Application.ProductVersion}",
+                "By M.Shams 2021",
                 "",
                 "Options:",
                 {
@@ -47,7 +45,11 @@ namespace SBO_CMDLine
                     "r", "Report management tools.", _ => _cmd = new CmdReportManager()
                 },
                 {
-                    "h|?", "show help", _ => ShowHelp()
+                    "h|?", "show help", _ =>
+                    {
+                        helpMode = true;
+                        ShowHelp();
+                    }
                 },
             };
 
@@ -78,7 +80,8 @@ namespace SBO_CMDLine
                 }
                 else
                 {
-                    ShowHelp();
+                    if (!helpMode)
+                        ShowHelp();
                 }
             }
             catch (Exception e)
