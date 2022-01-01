@@ -1,16 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using Mono.Options;
+using SBO_CMDLine.attribute;
 
-namespace SBO_CMDLine
+namespace SBO_CMDLine.cmd
 {
     /// <summary>
     /// Base class to be used as template for commands
     /// </summary>
     public abstract class Command
     {
+        /// <summary>
+        /// To determine selected action in command.
+        /// </summary>
+        public Enum Action { get; set; }
+
         /// <summary>
         /// Indicate the the command should print verbose information.
         /// </summary>
@@ -65,8 +70,29 @@ namespace SBO_CMDLine
             }
         }
 
+        /// <summary>
+        /// Invoke the selected action.
+        /// </summary>
         public virtual void PostProcess()
         {
+            if (Action != null)
+            {
+                var selectedAction = Convert.ToInt32(Action);
+                var switchMethods = this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+
+                foreach (var method in switchMethods)
+                {
+                    var attributes = method.GetCustomAttributes(typeof(SwitchAttribute), true);
+                    if (attributes.Any())
+                    {
+                        int methodAction = ((SwitchAttribute) attributes.First()).Action;
+                        if (selectedAction == methodAction)
+                        {
+                            method.Invoke(this, null);
+                        }
+                    }
+                }
+            }
         }
 
         public virtual void PreProcess()

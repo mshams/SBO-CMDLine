@@ -54,12 +54,14 @@
     <Reference Include="SAPBusinessOneSDK" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentParserHelper.cs" />
+    <Compile Include="cmd\ArgumentParserHelper.cs" />
+    <Compile Include="attribute\SwitchAttribute.cs" />
     <Compile Include="business\company\CompanyHelper.cs" />
     <Compile Include="business\company\Credential.cs" />
     <Compile Include="business\report\ReportHelper.cs" />
     <Compile Include="business\ui\MenuHelper.cs" />
-    <Compile Include="Command.cs" />
+    <Compile Include="cmd\Command.cs" />
+    <Compile Include="cmd\SwitchAction.cs" />
     <Compile Include="commands\CmdCompanyInfo.cs" />
     <Compile Include="commands\CmdMenuTools.cs" />
     <Compile Include="commands\CmdReportManager.cs" />

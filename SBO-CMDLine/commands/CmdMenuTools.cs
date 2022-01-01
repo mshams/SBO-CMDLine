@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mono.Options;
+using SBO_CMDLine.attribute;
 using SBO_CMDLine.business.ui;
+using Command = SBO_CMDLine.cmd.Command;
+
 
 namespace SBO_CMDLine.commands
 {
@@ -9,7 +12,6 @@ namespace SBO_CMDLine.commands
     {
         public string SearchItem;
         public string ListItem;
-        public MenuAction Action;
 
         public override string Description => "Working with UI menus.";
         public override string Help => "";
@@ -44,31 +46,20 @@ namespace SBO_CMDLine.commands
             }
         }
 
-        public override void PostProcess()
+        [Switch(MenuAction.Find)]
+        public void SwitchFind()
         {
-            base.PostProcess();
-
-            if (Action == MenuAction.List)
-            {
-                List<string> list = MenuHelper.GetMenuList(VerboseMode, ListItem);
-                string str = string.Join("\n", list.ToArray());
-                Console.WriteLine(str);
-            }
-            else if (Action == MenuAction.Find)
-            {
-                List<string> list = MenuHelper.FindMenu(SearchItem);
-                string str = string.Join("\n", list.ToArray());
-                Console.WriteLine(str);
-            }
+            List<string> list = MenuHelper.FindMenu(SearchItem);
+            string str = string.Join("\n", list.ToArray());
+            Console.WriteLine(str);
         }
 
-        public override void PreProcess()
+        [Switch(MenuAction.List)]
+        public void SwitchList()
         {
-            base.PreProcess();
-
-            Action = MenuAction.None;
-            SearchItem = "";
-            ListItem = "";
+            List<string> list = MenuHelper.GetMenuList(VerboseMode, ListItem);
+            string str = string.Join("\n", list.ToArray());
+            Console.WriteLine(str);
         }
     }
 

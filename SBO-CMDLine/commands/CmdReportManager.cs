@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Mono.Options;
+using SBO_CMDLine.attribute;
 using SBO_CMDLine.business.report;
+using SBO_CMDLine.business.ui;
+using Command = SBO_CMDLine.cmd.Command;
 
 namespace SBO_CMDLine.commands
 {
-    public class CmdReportManager : Command
+    public class CmdReportManager : cmd.Command
     {
         public string Filename;
         public string ReportName;
@@ -15,7 +19,6 @@ namespace SBO_CMDLine.commands
         public string AddonName;
         public string FindString;
         public string Menu;
-        public InstallAction Action;
 
         public override string Description => "Install/Uninstall reports.";
 
@@ -52,93 +55,81 @@ namespace SBO_CMDLine.commands
                         "menu:", "Menu ID to install report.\nVALUE: <NAME>", f => Menu = f
                     },
                     {
-                        "install", "Install report.", _ => Action = InstallAction.Install
+                        "install", "Install report.", _ => Action = ReportAction.Install
                     },
                     {
-                        "uninstall", "Uninstall report.", _ => Action = InstallAction.Uninstall
+                        "uninstall", "Uninstall report.", _ => Action = ReportAction.Uninstall
                     },
                     {
-                        "list", "List installed reports.", _ => Action = InstallAction.List
+                        "list", "List installed reports.", _ => Action = ReportAction.List
                     },
                     {
                         "find=", "Find report by type or name.\nVALUE: type:<TYPECODE>, name:<SUBSTRING>", searchItem =>
                         {
                             FindString = searchItem;
-                            Action = InstallAction.Find;
+                            Action = ReportAction.Find;
                         }
                     }
                 };
             }
         }
 
-        public override void PreProcess()
+        [Switch(ReportAction.Find)]
+        public void SwitchFind()
         {
-            base.PreProcess();
+            bool modeType = FindString.StartsWith("type:");
+            string param = FindString.Split(':')[1];
 
-            Action = InstallAction.None;
-            Filename = "";
-            ReportName = "";
-            Typecode = "";
-            TypeName = "";
-            FormType = "";
-            AddonName = "";
-            Menu = "";
+            var list = ReportHelper.GetReportList(
+                modeType ? param : "",
+                modeType ? "" : param);
+
+            string str = string.Join("\n", list.ToArray());
+            Console.WriteLine(str);
         }
 
-        public override void PostProcess()
+        [Switch(ReportAction.List)]
+        public void SwitchList()
         {
-            base.PostProcess();
+            var list = ReportHelper.GetReportList();
 
-            if (Action == InstallAction.Install)
-            {
-                if (string.IsNullOrEmpty(Filename))
-                    throw new Exception("Need file to install as report.");
+            string str = string.Join("\n", list.ToArray());
+            Console.WriteLine(str);
+        }
 
-                if (!File.Exists(Filename))
-                    throw new Exception("Report file doesn't exists.");
+        [Switch(ReportAction.Install)]
+        public void SwitchInstall()
+        {
+            if (string.IsNullOrEmpty(Filename))
+                throw new Exception("Need file to install as report.");
 
-                ReportHelper.ImportReport(
-                    Filename,
-                    ReportName,
-                    TypeName,
-                    FormType,
-                    AddonName,
-                    Menu);
-            }
-            else if (Action == InstallAction.Uninstall)
-            {
-                if (string.IsNullOrEmpty(Typecode))
-                    throw new Exception("Need report type code to uninstall it.");
+            if (!File.Exists(Filename))
+                throw new Exception("Report file doesn't exists.");
 
-                ReportHelper.RemoveReport(
-                    Typecode,
-                    TypeName,
-                    FormType,
-                    AddonName);
-            }
-            else if (Action == InstallAction.List)
-            {
-                var list = ReportHelper.GetReportList();
+            ReportHelper.ImportReport(
+                Filename,
+                ReportName,
+                TypeName,
+                FormType,
+                AddonName,
+                Menu);
+        }
 
-                string str = string.Join("\n", list.ToArray());
-                Console.WriteLine(str);
-            }
-            else if (Action == InstallAction.Find)
-            {
-                bool modeType = FindString.StartsWith("type:");
-                string param = FindString.Split(':')[1];
+        [Switch(ReportAction.Uninstall)]
+        public void SwitchUninstall()
+        {
+            if (string.IsNullOrEmpty(Typecode))
+                throw new Exception("Need report type code to uninstall it.");
 
-                var list = ReportHelper.GetReportList(
-                    modeType ? param : "",
-                    modeType ? "" : param);
-
-                string str = string.Join("\n", list.ToArray());
-                Console.WriteLine(str);
-            }
+            ReportHelper.RemoveReport(
+                Typecode,
+                TypeName,
+                FormType,
+                AddonName);
         }
     }
 
-    public enum InstallAction
+    public enum ReportAction
     {
         None,
         Install,

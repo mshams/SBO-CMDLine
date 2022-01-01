@@ -4,6 +4,7 @@ using System.Reflection;
 using SAPbobsCOM;
 using SAPbouiCOM.Framework;
 using SBO_CMDLine.business.company;
+using SBO_CMDLine.cmd;
 using Application = SAPbouiCOM.Framework.Application;
 
 namespace SBO_CMDLine
