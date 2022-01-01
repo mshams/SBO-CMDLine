@@ -3,6 +3,8 @@
 SBO-CMDLine is a handy tool to connect to Sap Business One and run commands via cmd-line.
 It makes it easier to run batch commands for SBO administrator and developers.
 
+Latest build: https://github.com/mshams/SBO-CMDLine/releases
+
 ### Any help to extend and develop this open source project is appreciated.
 
 ## Usage Examples:
@@ -26,6 +28,7 @@ Options:
   -r                         Report management tools.
   -h, -?                     show help
 ```
+In UI mode, there should be an open SBO application with admin permission (Ex: manager user) to be used by connection string and running commands. In DI mode you can prepare a xml file with propper credentials to be used for connection. 
 
 ### Get list of companies:
 Command:
