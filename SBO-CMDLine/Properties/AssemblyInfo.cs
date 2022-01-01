@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("B1Studio.VSIntegration.UICSharpTemplate")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Open source project https://github.com/mshams/SBO-CMDLine")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("B1Studio.VSIntegration.UICSharpTemplate")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyProduct("SBO-CMDLine")]
+[assembly: AssemblyCopyright("m.shams")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
