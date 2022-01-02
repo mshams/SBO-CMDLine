@@ -4,7 +4,7 @@ using System.Reflection;
 using Mono.Options;
 using SBO_CMDLine.attribute;
 
-namespace SBO_CMDLine.cmd
+namespace SBO_CMDLine.core
 {
     /// <summary>
     /// Base class to be used as template for commands

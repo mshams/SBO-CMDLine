@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SBO_CMDLine.cmd
+namespace SBO_CMDLine.core
 {
     public class SwitchAction : IEnumerable
     {

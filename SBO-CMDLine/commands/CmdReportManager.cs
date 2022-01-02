@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Mono.Options;
 using SBO_CMDLine.attribute;
 using SBO_CMDLine.business.report;
-using SBO_CMDLine.business.ui;
-using Command = SBO_CMDLine.cmd.Command;
+using Command = SBO_CMDLine.core.Command;
 
 namespace SBO_CMDLine.commands
 {
-    public class CmdReportManager : cmd.Command
+    public class CmdReportManager : Command
     {
         public string Filename;
         public string ReportName;

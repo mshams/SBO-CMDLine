@@ -3,9 +3,8 @@ using System.Windows.Forms;
 using Mono.Options;
 using SBO_CMDLine.business.company;
 using SBO_CMDLine.commands;
-using Command = SBO_CMDLine.cmd.Command;
 
-namespace SBO_CMDLine.cmd
+namespace SBO_CMDLine.core
 {
     public class ArgumentParserHelper
     {

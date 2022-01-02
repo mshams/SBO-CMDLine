@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mono.Options;
 using SBO_CMDLine.attribute;
 using SBO_CMDLine.business.company;
-using SBO_CMDLine.business.ui;
-using Command = SBO_CMDLine.cmd.Command;
+using Command = SBO_CMDLine.core.Command;
 
 namespace SBO_CMDLine.commands
 {
-    public class CmdCompanyInfo : cmd.Command
+    public class CmdCompanyInfo : Command
     {
         public override string Description => "Get company information.";
         public override string Help => "";

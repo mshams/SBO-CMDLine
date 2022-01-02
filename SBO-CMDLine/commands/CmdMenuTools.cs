@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Mono.Options;
 using SBO_CMDLine.attribute;
 using SBO_CMDLine.business.ui;
-using Command = SBO_CMDLine.cmd.Command;
-
+using Command = SBO_CMDLine.core.Command;
 
 namespace SBO_CMDLine.commands
 {
