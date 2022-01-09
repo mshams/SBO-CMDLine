@@ -11,6 +11,7 @@ namespace SBO_CMDLine.commands
     {
         public string SearchItem;
         public string ListItem;
+        public string OpenItem;
 
         public override string Description => "Working with UI menus.";
         public override string Help => "";
@@ -40,6 +41,13 @@ namespace SBO_CMDLine.commands
                             SearchItem = f;
                             Action = MenuAction.Find;
                         }
+                    },
+                    {
+                        "open=", "Open menu by it's id.\nVALUE: <UID>", id =>
+                        {
+                            OpenItem = id;
+                            Action = MenuAction.Open;
+                        }
                     }
                 };
             }
@@ -60,12 +68,20 @@ namespace SBO_CMDLine.commands
             string str = string.Join("\n", list.ToArray());
             Console.WriteLine(str);
         }
+
+
+        [Switch(MenuAction.Open)]
+        public void SwitchOpen()
+        {
+            MenuHelper.OpenMenuById(OpenItem);
+        }
     }
 
     public enum MenuAction
     {
         None,
         List,
-        Find
+        Find,
+        Open
     }
 }

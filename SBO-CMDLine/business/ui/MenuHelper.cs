@@ -108,5 +108,18 @@ namespace SBO_CMDLine.business.ui
             for (int i = 0; i < menus.Count; i++)
                 TraverseMenuItems(menus.Item(i), modeId, searchItem, ref list);
         }
+
+        /// <summary>
+        /// Open menu by ID
+        /// </summary>
+        /// <param name="uid">Menu UID</param>
+        public static void OpenMenuById(string uid)
+        {
+            if (!string.IsNullOrEmpty(uid))
+            {
+                MenuItem menu = CompanyHelper.GetApplication().Menus.Item(uid);
+                menu?.Activate();
+            }
+        }
     }
 }
