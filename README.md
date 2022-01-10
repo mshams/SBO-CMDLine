@@ -19,13 +19,14 @@ Output:
 SBO Command Line Helper v1.0.0.0
 By M.Shams 2021
 Options:
-  -f=VALUE                   Connection filename for DI connection mode.
+  -fn=VALUE                   Connection filename for DI connection mode.
                                VALUE: <FILEPATH>
-  -m=VALUE                   Connection mode.
+  -cm=VALUE                   Connection mode.
                                VALUE: UI, DI
-  -c                         Company information tools.
-  -n                         Working with UI menus.
-  -r                         Report management tools.
+  -ci                         Company information tools.
+  -um                         Working with UI menus.
+  -uf                         Working with UI forms.
+  -rm                         Report management tools.
   -h, -?                     show help
 ```
 In UI mode, there should be an open SBO application with admin permission (Ex: manager user) to be used by connection string and running commands. In DI mode you can prepare a xml file with propper credentials to be used for connection. 
@@ -33,7 +34,7 @@ In UI mode, there should be an open SBO application with admin permission (Ex: m
 ### Get list of companies:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -c --verbose --list
+SBO-CMDLine.exe -cm=UI -ci --verbose --list
 ```
 Output:
 ```
@@ -50,7 +51,7 @@ SBODemoUS
 ### Get list of modules:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -n --verbose --list=43520
+SBO-CMDLine.exe -cm=UI -um --verbose --list=43520
 ```
 Output:
 ```
@@ -76,7 +77,7 @@ Output:
 ### Lookup for menu by it's name:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -n --verbose --find=name:"Financial Reports"
+SBO-CMDLine.exe -cm=UI -um --verbose --find=name:"Financial Reports"
 ```
 Output:
 ```
@@ -86,7 +87,7 @@ UID: 43531      Name: Financia&l Reports
 ### Lookup for menu by it's UID:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -n --verbose --find=id:43550
+SBO-CMDLine.exe -cm=UI -um --verbose --find=id:43550
 ```
 Output:
 ```
@@ -96,7 +97,7 @@ UID: 43550      Name: &Financial
 ### Find all menus which names conatins 'Query':
 Command:
 ```
-SBO-CMDLine.exe -m=UI -n --verbose --find=name:"Query"
+SBO-CMDLine.exe -cm=UI -um --verbose --find=name:"Query"
 ```
 Output:
 ```
@@ -115,7 +116,7 @@ UID: 5130       Name: House Bank Accounts Query
 ### Get general help of Report Manager:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -r
+SBO-CMDLine.exe -cm=UI -rm
 ```
 Output:
 ```
@@ -145,20 +146,20 @@ Options:
 ### Install a CrystalReport file in given menu:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -r --file="AdvancedTrialBalance-v1.rpt" --report="Advanced Trial Balance" --install --menu=9728
+SBO-CMDLine.exe -cm=UI -rm --file="AdvancedTrialBalance-v1.rpt" --report="Advanced Trial Balance" --install --menu=9728
 ```
 
 ### Removing installed reports:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -r --code=A005 --uninstall
-SBO-CMDLine.exe -m=UI -r --type=A007 --uninstall
+SBO-CMDLine.exe -cm=UI -rm --code=A005 --uninstall
+SBO-CMDLine.exe -cm=UI -rm --type=A007 --uninstall
 ```
 
 ### Find all installed CR Reports:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -r --find=type:RCRI
+SBO-CMDLine.exe -cm=UI -rm --find=type:RCRI
 ```
 Output:
 ```
@@ -179,7 +180,7 @@ Type: RCRI  Code: RCRI0004  Category: rlcCrystal  Name: Payment Orders Report by
 ### Find all reports with the name Payroll:
 Command:
 ```
-SBO-CMDLine.exe -m=UI -r --find=name:Payroll
+SBO-CMDLine.exe -cm=UI -rm --find=name:Payroll
 ```
 Output:
 ```

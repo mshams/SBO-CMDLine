@@ -54,6 +54,8 @@
     <Reference Include="SAPBusinessOneSDK" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="business\ui\FormHelper.cs" />
+    <Compile Include="commands\CmdFormTools.cs" />
     <Compile Include="core\ArgumentParserHelper.cs" />
     <Compile Include="attribute\SwitchAttribute.cs" />
     <Compile Include="business\company\CompanyHelper.cs" />

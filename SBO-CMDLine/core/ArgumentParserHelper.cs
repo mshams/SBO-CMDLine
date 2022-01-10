@@ -30,19 +30,22 @@ namespace SBO_CMDLine.core
                 "",
                 "Options:",
                 {
-                    "f=", "Connection filename for DI connection mode.\nVALUE: <FILEPATH>", f => _connectionFile = f
+                    "fn=", "Connection filename for DI connection mode.\nVALUE: <FILEPATH>", f => _connectionFile = f
                 },
                 {
-                    "m=", "Connection mode.\nVALUE: UI, DI", m => _connectionMode = m
+                    "cm=", "Connection mode.\nVALUE: UI, DI", m => _connectionMode = m
                 },
                 {
-                    "c", "Company information tools.", _ => _cmd = new CmdCompanyInfo()
+                    "ci", "Company information tools.", _ => _cmd = new CmdCompanyInfo()
                 },
                 {
-                    "n", "Working with UI menus.", _ => _cmd = new CmdMenuTools()
+                    "um", "Working with UI menus.", _ => _cmd = new CmdMenuTools()
                 },
                 {
-                    "r", "Report management tools.", _ => _cmd = new CmdReportManager()
+                    "uf", "Working with UI forms.", _ => _cmd = new CmdFormTools()
+                },
+                {
+                    "rm", "Report management tools.", _ => _cmd = new CmdReportManager()
                 },
                 {
                     "h|?", "show help", _ =>
