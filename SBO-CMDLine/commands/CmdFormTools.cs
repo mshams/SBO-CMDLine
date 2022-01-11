@@ -9,6 +9,8 @@ namespace SBO_CMDLine.commands
 {
     public class CmdFormTools : Command
     {
+        public string SelectedForm;
+
         public override string Description => "Working with UI forms.";
         public override string Help => "";
 
@@ -25,11 +27,15 @@ namespace SBO_CMDLine.commands
                         "verbose", "Verbose information.", _ => VerboseMode = true
                     },
                     {
-                        "list", "Get list of active forms.", _ =>
+                        "list", "Get list of active forms.", _ => { Action = FormAction.List; }
+                    },
+                    {
+                        "dump=", "Get list of items on given form.\nVALUE: <UID>", f =>
                         {
-                            Action = FormAction.List;
+                            SelectedForm = f;
+                            Action = FormAction.Dump;
                         }
-                    }
+                    },
                 };
             }
         }
@@ -41,11 +47,20 @@ namespace SBO_CMDLine.commands
             string str = string.Join("\n", list.ToArray());
             Console.WriteLine(str);
         }
+
+        [Switch(FormAction.Dump)]
+        public void SwitchDump()
+        {
+            List<string> list = FormHelper.GetFormItems(VerboseMode, SelectedForm);
+            string str = string.Join("\n", list.ToArray());
+            Console.WriteLine(str);
+        }
     }
 
     public enum FormAction
     {
         None,
-        List
+        List,
+        Dump
     }
 }

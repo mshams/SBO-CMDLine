@@ -42,5 +42,38 @@ namespace SBO_CMDLine.business.ui
 
             return list;
         }
+
+        public static List<string> GetFormItems(bool verboseMode, string uid)
+        {
+            List<String> list = new List<string>();
+
+            Form form = CompanyHelper.GetApplication().Forms.Item(uid);
+
+            string verboseFormat = "   UID: {0,-10} Type: {1,-20} Description: {2}";
+
+            if (form != null)
+                if (verboseMode)
+                {
+                    for (int i = 0; i < form.Items.Count; i++)
+                    {
+                        Item item = form.Items.Item(i);
+                        list.Add(String.Format(verboseFormat,
+                            item.UniqueID,
+                            item.Type,
+                            item.Description
+                        ));
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < form.Items.Count; i++)
+                    {
+                        Item item = form.Items.Item(i);
+                        list.Add(item.UniqueID);
+                    }
+                }
+
+            return list;
+        }
     }
 }
