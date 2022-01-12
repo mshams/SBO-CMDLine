@@ -9,6 +9,11 @@ namespace SBO_CMDLine.business.ui
 {
     public class FormHelper
     {
+        /// <summary>
+        /// Get list of active forms.
+        /// </summary>
+        /// <param name="verboseMode">Return verbose information</param>
+        /// <returns></returns>
         public static List<string> GetFormList(bool verboseMode)
         {
             List<String> list = new List<string>();
@@ -43,6 +48,12 @@ namespace SBO_CMDLine.business.ui
             return list;
         }
 
+        /// <summary>
+        /// Get list of items on given menu.
+        /// </summary>
+        /// <param name="verboseMode">Return verbose information</param>
+        /// <param name="uid">Form UID</param>
+        /// <returns></returns>
         public static List<string> GetFormItems(bool verboseMode, string uid)
         {
             List<String> list = new List<string>();
@@ -76,6 +87,11 @@ namespace SBO_CMDLine.business.ui
             return list;
         }
 
+        /// <summary>
+        /// Activate given form and click on given item.
+        /// </summary>
+        /// <param name="formUid">Form Uid</param>
+        /// <param name="itemUid">Item Uid</param>
         public static void Activate(string formUid, string itemUid)
         {
             try
@@ -90,6 +106,11 @@ namespace SBO_CMDLine.business.ui
             }
         }
 
+        /// <summary>
+        /// Activate given form.
+        /// </summary>
+        /// <param name="formUid">Form Uid</param>
+        /// <returns></returns>
         public static Form Activate(string formUid)
         {
             try
