@@ -10,6 +10,7 @@ namespace SBO_CMDLine.commands
     public class CmdFormTools : Command
     {
         public string SelectedForm;
+        public string ActivateItem;
 
         public override string Description => "Working with UI forms.";
         public override string Help => "";
@@ -36,6 +37,13 @@ namespace SBO_CMDLine.commands
                             Action = FormAction.Dump;
                         }
                     },
+                    {
+                        "activate=", "Active form or items.\nVALUE: <UID>[:<ITEM_ID>]", f =>
+                        {
+                            ActivateItem = f;
+                            Action = FormAction.Activate;
+                        }
+                    },
                 };
             }
         }
@@ -55,12 +63,27 @@ namespace SBO_CMDLine.commands
             string str = string.Join("\n", list.ToArray());
             Console.WriteLine(str);
         }
+
+        [Switch(FormAction.Activate)]
+        public void SwitchActivate()
+        {
+            string[] items = ActivateItem.Split(':');
+            if (items.Length > 1)
+            {
+                FormHelper.Activate(items[0], items[1]);
+            }
+            else
+            {
+                FormHelper.Activate(items[0]);
+            }
+        }
     }
 
     public enum FormAction
     {
         None,
         List,
-        Dump
+        Dump,
+        Activate
     }
 }

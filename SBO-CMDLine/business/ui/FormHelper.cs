@@ -69,11 +69,41 @@ namespace SBO_CMDLine.business.ui
                     for (int i = 0; i < form.Items.Count; i++)
                     {
                         Item item = form.Items.Item(i);
-                        list.Add(item.UniqueID);
+                        list.Add(item.Type.ToString());
                     }
                 }
 
             return list;
+        }
+
+        public static void Activate(string formUid, string itemUid)
+        {
+            try
+            {
+                Form form = Activate(formUid);
+                var item = form?.Items.Item(itemUid);
+                item?.Click();
+            }
+            catch
+            {
+                Console.WriteLine("Error! Form or item doesn't exists.");
+            }
+        }
+
+        public static Form Activate(string formUid)
+        {
+            try
+            {
+                Form form = CompanyHelper.GetApplication().Forms.Item(formUid);
+                form?.Select();
+
+                return form;
+            }
+            catch
+            {
+                Console.WriteLine("Error! Form doesn't exists.");
+                return null;
+            }
         }
     }
 }
