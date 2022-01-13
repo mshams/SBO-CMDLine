@@ -31,6 +31,9 @@ namespace SBO_CMDLine.commands
                         "list", "Get list of active forms.", _ => { Action = FormAction.List; }
                     },
                     {
+                        "top", "Get information of top form.", _ => { Action = FormAction.Top; }
+                    },
+                    {
                         "dump=", "Get list of items on given form.\nVALUE: <UID>", f =>
                         {
                             SelectedForm = f;
@@ -77,6 +80,13 @@ namespace SBO_CMDLine.commands
                 FormHelper.Activate(items[0]);
             }
         }
+
+        [Switch(FormAction.Top)]
+        public void SwitchTop()
+        {
+            string str = FormHelper.GetTopForm(VerboseMode);
+            Console.WriteLine(str);
+        }
     }
 
     public enum FormAction
@@ -84,6 +94,7 @@ namespace SBO_CMDLine.commands
         None,
         List,
         Dump,
-        Activate
+        Activate,
+        Top
     }
 }

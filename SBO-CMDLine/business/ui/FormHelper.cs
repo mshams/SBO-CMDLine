@@ -89,6 +89,11 @@ namespace SBO_CMDLine.business.ui
             return list;
         }
 
+        /// <summary>
+        /// Return a string of caption, text or other info for every item.
+        /// </summary>
+        /// <param name="item">Given item</param>
+        /// <returns></returns>
         private static string GetItemText(Item item)
         {
             string result;
@@ -215,6 +220,36 @@ namespace SBO_CMDLine.business.ui
                 Console.WriteLine("Error! Form doesn't exists.");
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Get top form information as string.
+        /// </summary>
+        /// <param name="verboseMode"></param>
+        /// <returns>Return verbose information</returns>
+        public static string GetTopForm(bool verboseMode)
+        {
+            string result = "";
+            Form form = CompanyHelper.GetApplication().Forms.ActiveForm;
+
+            string verboseFormat = "   UID: {0,-10} Type: {1,-10} Mode: {2,-10}\tTitle: {3}";
+
+            if (form != null)
+                if (verboseMode)
+                {
+                    result = String.Format(verboseFormat,
+                        form.UniqueID,
+                        form.TypeEx,
+                        form.Mode,
+                        form.Title
+                    );
+                }
+                else
+                {
+                    result = form.Title;
+                }
+
+            return result;
         }
     }
 }
