@@ -60,7 +60,7 @@ namespace SBO_CMDLine.business.ui
 
             Form form = CompanyHelper.GetApplication().Forms.Item(uid);
 
-            string verboseFormat = "   UID: {0,-10} Type: {1,-20} Description: {2}";
+            string verboseFormat = "   UID: {0,-10} Type: {1,-18} Text: {2}";
 
             if (form != null)
                 if (verboseMode)
@@ -68,10 +68,12 @@ namespace SBO_CMDLine.business.ui
                     for (int i = 0; i < form.Items.Count; i++)
                     {
                         Item item = form.Items.Item(i);
+                        string text = GetItemText(item);
+
                         list.Add(String.Format(verboseFormat,
                             item.UniqueID,
                             item.Type,
-                            item.Description
+                            text
                         ));
                     }
                 }
@@ -85,6 +87,94 @@ namespace SBO_CMDLine.business.ui
                 }
 
             return list;
+        }
+
+        private static string GetItemText(Item item)
+        {
+            string result;
+
+            try
+            {
+                switch (item.Type)
+                {
+                    case BoFormItemTypes.it_BUTTON:
+                        result = ((Button) item.Specific).Caption;
+                        break;
+
+                    case BoFormItemTypes.it_STATIC:
+                        result = ((StaticText) item.Specific).Caption;
+                        break;
+
+                    case BoFormItemTypes.it_BUTTON_COMBO:
+                        result = ((ButtonCombo) item.Specific).Caption;
+                        break;
+
+                    case BoFormItemTypes.it_CHECK_BOX:
+                        result = ((CheckBox) item.Specific).Caption;
+                        break;
+
+                    case BoFormItemTypes.it_EXTEDIT:
+                    case BoFormItemTypes.it_EDIT:
+                        result = ((EditText) item.Specific).String?.Replace("\n", " ")
+                            .Substring(0, Math.Min(30, ((EditText) item.Specific).String.Length));
+
+                        if (!string.IsNullOrEmpty(result))
+                            result += "...";
+                        break;
+
+                    case BoFormItemTypes.it_FOLDER:
+                        result = ((Folder) item.Specific).Caption;
+                        break;
+
+                    case BoFormItemTypes.it_OPTION_BUTTON:
+                        result = ((OptionBtn) item.Specific).Caption;
+                        break;
+
+                    case BoFormItemTypes.it_COMBO_BOX:
+                        result = ((ComboBox) item.Specific).Selected?.Value;
+                        break;
+
+                    case BoFormItemTypes.it_PICTURE:
+                        result = ((PictureBox) item.Specific).Picture;
+                        break;
+
+                    case BoFormItemTypes.it_WEB_BROWSER:
+                        result = ((WebBrowser) item.Specific).Url;
+                        break;
+
+                    case BoFormItemTypes.it_LINKED_BUTTON:
+                        var lb = (LinkedButton) item.Specific;
+                        result = $"{lb.LinkedObject}:{lb.LinkedObjectType}";
+                        break;
+
+                    case BoFormItemTypes.it_GRID:
+                        result = $"{((Grid) item.Specific).Rows.Count}R x {((Grid) item.Specific).Columns.Count}C";
+                        break;
+
+                    case BoFormItemTypes.it_MATRIX:
+                        result = $"{((Matrix) item.Specific).RowCount}R x {((Matrix) item.Specific).Columns.Count}C";
+                        break;
+
+                    case BoFormItemTypes.it_PANE_COMBO_BOX:
+                        result = ((PaneComboBox) item.Specific).Selected?.Value;
+                        break;
+
+                    case BoFormItemTypes.it_ACTIVE_X:
+                        result = ((ActiveX) item.Specific).ClassID;
+                        break;
+
+                    default:
+                        result = "";
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return result;
         }
 
         /// <summary>
