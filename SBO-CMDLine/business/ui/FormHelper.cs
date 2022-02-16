@@ -153,11 +153,13 @@ namespace SBO_CMDLine.business.ui
                         break;
 
                     case BoFormItemTypes.it_GRID:
-                        result = $"{((Grid) item.Specific).Rows.Count}R x {((Grid) item.Specific).Columns.Count}C";
+                        var grd = (Grid) item.Specific;
+                        result = $"{grd.Rows.Count}R x {grd.Columns.Count}C";
                         break;
 
                     case BoFormItemTypes.it_MATRIX:
-                        result = $"{((Matrix) item.Specific).RowCount}R x {((Matrix) item.Specific).Columns.Count}C";
+                        var mat = (Matrix) item.Specific;
+                        result = $"{mat.RowCount}R x {mat.Columns.Count}C";
                         break;
 
                     case BoFormItemTypes.it_PANE_COMBO_BOX:
